@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import { Menu, Input, Button } from 'antd';
 
 const Layout = ({ children }) => {
@@ -20,12 +21,16 @@ const Layout = ({ children }) => {
           <Input.Search enterButton style={{ verticalAlign: 'middle' }} />
         </Menu.Item>
       </Menu>
-      <Link href='/signup'>
+      <Link href="/signup">
         <Button>Signup</Button>
       </Link>
       {children}
     </div>
   );
+};
+
+Layout.propTypes = {
+  children: PropTypes.node
 };
 
 export default Layout;
