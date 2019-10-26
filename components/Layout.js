@@ -1,16 +1,28 @@
 import React from 'react';
-import { Menu, Input } from 'antd';
+import Link from 'next/link';
+import { Menu, Input, Button } from 'antd';
 
 const Layout = ({ children }) => {
   return (
     <div>
       <Menu mode="horizontal">
-        <Menu.Item key="home">Home</Menu.Item>
-        <Menu.Item key="profile">Profile</Menu.Item>
+        <Menu.Item key="home">
+          <Link href="/index">
+            <a>Home</a>
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="profile">
+          <Link href="/profile">
+            <a>Profile</a>
+          </Link>
+        </Menu.Item>
         <Menu.Item key="search">
           <Input.Search enterButton style={{ verticalAlign: 'middle' }} />
         </Menu.Item>
       </Menu>
+      <Link href='/signup'>
+        <Button>Signup</Button>
+      </Link>
       {children}
     </div>
   );
