@@ -1,0 +1,32 @@
+{
+  "name": "next-project-front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angelxtry/next-project-front.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/angelxtry/next-project-front/issues"
+  },
+  "homepage": "https://github.com/angelxtry/next-project-front#readme",
+  "dependencies": {
+    "antd": "^3.24.2",
+    "next": "^9.1.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.2.0",
+    "nodemon": "^1.19.4",
+    "webpack": "^4.41.2"
+  }
+}
