@@ -1,7 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
 
 import useInput from '../components/useInput';
+
+const TextInput = memo(({ name, value, onChange }) => {
+  return <Input name={name} required value={value} onChange={onChange} />;
+});
 
 const signup = () => {
   const [email, onChangeEmail] = useInput('');
@@ -45,12 +49,7 @@ const signup = () => {
         <div>
           <label htmlFor="user-email">Email</label>
           <br />
-          <Input
-            name="user-email"
-            required
-            value={email}
-            onChange={onChangeEmail}
-          />
+          <TextInput name="user-email" value={email} onChange={onChangeEmail} />
         </div>
         <div>
           <label htmlFor="user-nickname">Nickname</label>
