@@ -1,9 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { Menu, Input, Button } from 'antd';
+import { useSelector } from 'react-redux'
+import { Menu, Input, Row, Col } from 'antd';
+
+import LoginForm from './LoginForm';
+import UserProfile from './UserProfile';
 
 const Layout = ({ children }) => {
+  const { isLoggedIn } = useSelector(state => state.user);
   return (
     <div>
       <Menu mode="horizontal">
@@ -21,10 +26,15 @@ const Layout = ({ children }) => {
           <Input.Search enterButton style={{ verticalAlign: 'middle' }} />
         </Menu.Item>
       </Menu>
-      <Link href="/signup">
-        <Button>Signup</Button>
-      </Link>
-      {children}
+      <Row gutter={10}>
+        <Col xs={24} md={6}>
+          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+        </Col>
+        <Col xs={24} md={12}>
+          {children}
+        </Col>
+        <Col xs={24} md={6}></Col>
+      </Row>
     </div>
   );
 };

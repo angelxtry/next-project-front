@@ -1,7 +1,9 @@
 import React, { useState, useCallback, memo } from 'react';
+import { useDispatch } from 'react-redux';
 import { Form, Input, Button, Checkbox } from 'antd';
 
 import useInput from '../components/useInput';
+import { SIGN_UP_REQUEST } from '../reducers/user';
 
 const TextInput = memo(({ name, value, onChange }) => {
   return <Input name={name} required value={value} onChange={onChange} />;
@@ -29,6 +31,8 @@ const signup = () => {
     setTerm(e.target.checked);
   }, []);
 
+  const disaptch = useDispatch();
+
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -38,6 +42,10 @@ const signup = () => {
       if (!term) {
         return setTermError(true);
       }
+      disaptch({
+        type: SIGN_UP_REQUEST,
+        payload: { email, nickname, password }
+      });
       console.log({ email, nickname, password, passwordCheck, term });
     },
     [email, nickname, password, passwordCheck, term, passwordError, termError]
