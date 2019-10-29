@@ -12,7 +12,7 @@ const UserProfile = () => {
     })
   }, []);
 
-  const { user } = useSelector((state) => state.user);
+  const { me } = useSelector((state) => state.user);
 
   return (
     <Card
@@ -20,13 +20,13 @@ const UserProfile = () => {
         <div key="my-cafe">
           My Cafe
           <br />
-          {user.myCafes.length}
+          {me.myCafes.length}
         </div>
       ]}
     >
       <Card.Meta
-        avatar={<Avatar>{user.nickname[0]}</Avatar>}
-        title={user.nickname}
+        avatar={<Avatar>{me.nickname[0]}</Avatar>}
+        title={me.nickname}
       />
       <Button onClick={onLogout}>Logout</Button>
     </Card>

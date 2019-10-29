@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
+import createSagaMiddleware from 'redux-saga';
 
-import rootReducer from '../reducers';
 import Layout from '../components/Layout';
+import rootReducer from '../reducers';
+import rootSaga from '../sagas';
 
 const CandC = ({ Component, store }) => {
   return (
@@ -29,15 +31,22 @@ CandC.propTypes = {
   Component: PropTypes.elementType
 };
 
-export default withRedux((initialState, options) => {
-  const middlewares = [];
-  const enhancer = compose(
-    applyMiddleware(...middlewares),
-    !options.isServer &&
-      typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined'
-      ? window.__REDUX_DEVTOOLS_EXTENSION__()
-      : (f) => f
-  );
+const configureStore = (initialState, options) => {
+  const sagaMiddleware = createSagaMiddleware();
+  const middlewares = [sagaMiddleware];
+  const enhancer =
+    process.env.NODE_ENV === 'production'
+      ? compose(applyMiddleware(...middlewares))
+      : compose(
+          applyMiddleware(...middlewares),
+          !options.isServer &&
+            typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined'
+            ? window.__REDUX_DEVTOOLS_EXTENSION__()
+            : (f) => f
+        );
   const store = createStore(rootReducer, initialState, enhancer);
+  sagaMiddleware.run(rootSaga);
   return store;
-})(CandC);
+};
+
+export default withRedux(configureStore)(CandC);

@@ -1,5 +1,6 @@
-import React, { useState, useCallback, memo } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useCallback, memo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Router from 'next/router';
 import { Form, Input, Button, Checkbox } from 'antd';
 
 import useInput from '../components/useInput';
@@ -50,6 +51,13 @@ const signup = () => {
     },
     [email, nickname, password, passwordCheck, term, passwordError, termError]
   );
+
+  const { isLoggedIn } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (isLoggedIn) {
+      Router.push('/');
+    }
+  }, [isLoggedIn]);
 
   return (
     <div>

@@ -8,7 +8,12 @@ export const LOG_OUT = 'LOG_OUT';
 
 const initialState = {
   isLoggedIn: false,
-  user: null,
+  isLoggingIn: false,
+  loginError: '',
+  isSignedUp: false,
+  isSigningUp: false,
+  signUpError: '',
+  me: null,
   signUpData: null
 };
 
@@ -25,45 +30,57 @@ const reducer = (state = initialState, action) => {
     case SIGN_UP_REQUEST: {
       return {
         ...state,
-        signUpData: action.payload
+        isSignedUp: false,
+        isSigningUp: true,
+        signUpErrorReason: ''
       };
     }
     case SIGN_UP_SUCCESS: {
       return {
-        ...state
+        ...state,
+        isSignedUp: true,
+        isSigningUp: false
       };
     }
     case SIGN_UP_FAILURE: {
       return {
-        ...state
+        ...state,
+        isSignedUp: false,
+        isSigningUp: false,
+        signUpError: action.error
       };
     }
     case LOG_IN_REQUEST: {
       return {
         ...state,
         isLoggedIn: false,
-        user: null
+        isLoggingIn: true,
+        me: null,
+        loginError: ''
       };
     }
     case LOG_IN_SUCCESS: {
       return {
         ...state,
         isLoggedIn: true,
-        user: dummyUser
+        isLoggingIn: false,
+        me: dummyUser
       };
     }
     case LOG_IN_FAILURE: {
       return {
         ...state,
         isLoggedIn: false,
-        user: null
+        isLoggingIn: false,
+        me: null,
+        loginError: action.error
       };
     }
     case LOG_OUT: {
       return {
         ...state,
         isLoggedIn: false,
-        user: null
+        me: null
       };
     }
     default: {

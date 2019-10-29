@@ -1,20 +1,22 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 
 import useInput from '../components/useInput';
-import { LOG_IN_SUCCESS } from '../reducers/user';
+import { LOG_IN_REQUEST } from '../reducers/user';
 
 const LoginForm = () => {
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
 
+  const { isLoggingIn } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
   const onSubmit = useCallback((e) => {
     e.preventDefault();
     dispatch({
-      type: LOG_IN_SUCCESS
+      type: LOG_IN_REQUEST
     });
   }, []);
 
@@ -40,7 +42,7 @@ const LoginForm = () => {
         />
       </div>
       <div style={{ marginTop: '10px' }}>
-        <Button type="primary" htmlType="submit" loading={false}>
+        <Button type="primary" htmlType="submit" loading={isLoggingIn}>
           Login
         </Button>
         <Link href="/signup">
