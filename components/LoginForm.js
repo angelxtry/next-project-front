@@ -16,9 +16,13 @@ const LoginForm = () => {
   const onSubmit = useCallback((e) => {
     e.preventDefault();
     dispatch({
-      type: LOG_IN_REQUEST
+      type: LOG_IN_REQUEST,
+      payload: {
+        userId: email,
+        password
+      }
     });
-  }, []);
+  }, [email, password]);
 
   return (
     <Form onSubmit={onSubmit} style={{ padding: '10px' }}>

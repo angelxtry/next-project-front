@@ -7,7 +7,7 @@ import { ADD_POST_REQUEST } from '../reducers/post';
 const PostForm = () => {
   const [text, setText] = useState('');
   const { isAddedPost, isAddingPost } = useSelector((state) => state.post);
-  
+
   const dispatch = useDispatch();
 
   const onChangeText = useCallback((e) => {
@@ -20,7 +20,10 @@ const PostForm = () => {
       if (!text || !text.trim()) {
         return alert('Plz wrtie content.');
       }
-      dispatch({ type: ADD_POST_REQUEST, payload: text });
+      dispatch({
+        type: ADD_POST_REQUEST,
+        payload: { content: text }
+      });
     },
     [text]
   );

@@ -45,11 +45,10 @@ const signup = () => {
       }
       disaptch({
         type: SIGN_UP_REQUEST,
-        payload: { email, nickname, password }
+        payload: { userId: email, nickname, password }
       });
-      console.log({ email, nickname, password, passwordCheck, term });
     },
-    [email, nickname, password, passwordCheck, term, passwordError, termError]
+    [email, nickname, password, term]
   );
 
   const { isLoggedIn } = useSelector((state) => state.user);
@@ -83,6 +82,7 @@ const signup = () => {
           <Input
             name="user-password"
             required
+            type="password"
             value={password}
             onChange={onChangePassword}
           />

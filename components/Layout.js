@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Input, Row, Col } from 'antd';
 
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
+import { LOAD_USER_REQUEST } from '../reducers/user';
 
 const Layout = ({ children }) => {
-  const { isLoggedIn } = useSelector(state => state.user);
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      dispatch({
+        type: LOAD_USER_REQUEST
+      });
+    }
+  }, []);
+
   return (
     <div>
       <Menu mode="horizontal">

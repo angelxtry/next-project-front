@@ -4,25 +4,28 @@ export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
-export const LOG_OUT = 'LOG_OUT';
+export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
+export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
+export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
+export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
+export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
+export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
 
 const initialState = {
   isLoggedIn: false,
   isLoggingIn: false,
   loginError: '',
+  isLoggedOut: false,
+  isLoggingOut: false,
+  logoutError: '',
+  // isLoadedUser: false,
+  // isLoadingUser: false,
+  loadUserError: '',
   isSignedUp: false,
   isSigningUp: false,
   signUpError: '',
   me: null,
   signUpData: null
-};
-
-const dummyUser = {
-  nickname: 'dummy user',
-  myCafes: [{}, {}],
-  Post: [],
-  Followings: [],
-  Followers: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -60,11 +63,12 @@ const reducer = (state = initialState, action) => {
       };
     }
     case LOG_IN_SUCCESS: {
+      console.log(action.payload);
       return {
         ...state,
         isLoggedIn: true,
         isLoggingIn: false,
-        me: dummyUser
+        me: action.payload.data
       };
     }
     case LOG_IN_FAILURE: {
@@ -76,11 +80,45 @@ const reducer = (state = initialState, action) => {
         loginError: action.error
       };
     }
-    case LOG_OUT: {
+    case LOG_OUT_REQUEST: {
+      return {
+        ...state,
+        loginError: ''
+      };
+    }
+    case LOG_OUT_SUCCESS: {
+      console.log(action.payload);
       return {
         ...state,
         isLoggedIn: false,
         me: null
+      };
+    }
+    case LOG_OUT_FAILURE: {
+      return {
+        ...state,
+        logoutError: action.error
+      };
+    }
+    case LOAD_USER_REQUEST: {
+      return {
+        ...state,
+        loadUserError: ''
+      };
+    }
+    case LOAD_USER_SUCCESS: {
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoggedIn: true,
+        me: action.payload.data
+      };
+    }
+    case LOAD_USER_FAILURE: {
+      return {
+        ...state,
+        me: null,
+        loadUserError: action.error
       };
     }
     default: {

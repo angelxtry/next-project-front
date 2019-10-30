@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Card, Icon, Button, Avatar } from 'antd';
 
+import PostCardContent from './PostCardContent';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 
@@ -25,7 +26,7 @@ const PostCard = ({ post }) => {
         <Card.Meta
           avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}
-          description={post.content}
+          description={<PostCardContent postContent={post.content} />}
         />
       </Card>
       {commentFormOpened && (
