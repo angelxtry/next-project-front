@@ -20,10 +20,13 @@ const CommentForm = ({ post }) => {
       }
       return dispatch({
         type: ADD_COMMENT_REQUEST,
-        payload: { postId: post.id }
+        payload: {
+          postId: post.id,
+          content: commentText
+        }
       });
     },
-    [isLoggedIn]
+    [isLoggedIn, commentText]
   );
 
   useEffect(() => {

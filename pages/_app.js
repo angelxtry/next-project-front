@@ -10,7 +10,7 @@ import Layout from '../components/Layout';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
 
-const CandC = ({ Component, store }) => {
+const CandC = ({ Component, store, pageProps }) => {
   return (
     <Provider store={store}>
       <Head>
@@ -19,9 +19,20 @@ const CandC = ({ Component, store }) => {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.23.6/antd.min.css"
         />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          charSet="UTF-8"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
+        />
+        <link
+          rel="stylesheet"
+          type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
+        />
       </Head>
       <Layout>
-        <Component />
+        <Component {...pageProps} />
       </Layout>
     </Provider>
   );
@@ -29,6 +40,16 @@ const CandC = ({ Component, store }) => {
 
 CandC.propTypes = {
   Component: PropTypes.elementType
+};
+
+CandC.getInitialProps = async (context) => {
+  // console.log(context);
+  const { ctx, Component } = context;
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+  return { pageProps };
 };
 
 const configureStore = (initialState, options) => {

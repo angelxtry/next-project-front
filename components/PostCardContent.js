@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 
-const PostCardContent = ({ postContent }) => {
+const PostCardContent = ({ postData }) => {
   return (
     <div>
-      {postContent.split(/(#[^\s]+)/g).map((v) => {
+      {postData.split(/(#[^\s]+)/g).map((v) => {
         if (v.match(/#[^\s]+/)) {
           return (
             <Link

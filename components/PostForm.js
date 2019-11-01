@@ -1,12 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button } from 'antd';
 
-import { ADD_POST_REQUEST } from '../reducers/post';
+import {
+  ADD_POST_REQUEST,
+  UPLOAD_IMAGES_REQUEST,
+  REMOVE_IMAGE
+} from '../reducers/post';
 
 const PostForm = () => {
   const [text, setText] = useState('');
-  const { isAddedPost, isAddingPost } = useSelector((state) => state.post);
+  const { imagePaths, isAddedPost, isAddingPost } = useSelector(
+    (state) => state.post
+  );
+  const imageInput = useRef();
 
   const dispatch = useDispatch();
 
@@ -20,12 +27,17 @@ const PostForm = () => {
       if (!text || !text.trim()) {
         return alert('Plz wrtie content.');
       }
+      const formData = new FormData();
+      imagePaths.forEach((i) => {
+        formData.append('image', i);
+      });
+      formData.append('content', text);
       dispatch({
         type: ADD_POST_REQUEST,
-        payload: { content: text }
+        payload: formData
       });
     },
-    [text]
+    [text, imagePaths]
   );
 
   useEffect(() => {
@@ -33,6 +45,32 @@ const PostForm = () => {
       setText('');
     }
   }, [isAddedPost]);
+
+  const onClickImageUpload = useCallback(() => {
+    imageInput.current.click();
+  }, [imageInput.current]);
+
+  const onChangeImages = useCallback((e) => {
+    console.log(e.target.files);
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append('image', f);
+    });
+    dispatch({
+      type: UPLOAD_IMAGES_REQUEST,
+      payload: imageFormData
+    });
+  }, []);
+
+  const onRemoveImage = useCallback(
+    (index) => () => {
+      dispatch({
+        type: REMOVE_IMAGE,
+        index
+      });
+    },
+    []
+  );
 
   return (
     <Form
@@ -47,8 +85,14 @@ const PostForm = () => {
         onChange={onChangeText}
       />
       <div>
-        <Input type="file" multiple hidden />
-        <Button>Image Upload</Button>
+        <input
+          type="file"
+          multiple
+          hidden
+          ref={imageInput}
+          onChange={onChangeImages}
+        />
+        <Button onClick={onClickImageUpload}>Image upload</Button>
         <Button
           type="primary"
           style={{ float: 'right' }}
@@ -57,6 +101,20 @@ const PostForm = () => {
         >
           write
         </Button>
+      </div>
+      <div>
+        {imagePaths.map((v, i) => (
+          <div key={v} style={{ display: 'inline-block' }}>
+            <img
+              src={`http://localhost:8080/${v}`}
+              style={{ width: '200px' }}
+              alt={v}
+            />
+            <div>
+              <Button onClick={onRemoveImage(i)}>제거</Button>
+            </div>
+          </div>
+        ))}
       </div>
     </Form>
   );
